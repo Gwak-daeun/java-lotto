@@ -10,7 +10,10 @@ import java.util.*;
 
 public class Application {
 
-    private static List<Integer> chosenNumbers = new ArrayList<>(Arrays.asList(3,4,5,6));
+    static int intUserNumber = 0;
+    private static List<Integer> winningNumbers = new ArrayList<>(Arrays.asList(3,4,5,6));
+
+    private static int earning = 0;
     public static void main(String[] args) {
 
         Application application = new Application();
@@ -38,7 +41,7 @@ public class Application {
         String strUserNumber = Console.readLine();
 
         //문자열 돈을 숫자 돈으로 바꾸기
-        int intUserNumber = Integer.parseInt(strUserNumber);
+        intUserNumber = Integer.parseInt(strUserNumber);
 
         int restMoney = intUserNumber % 1000;
 
@@ -56,7 +59,7 @@ public class Application {
         //입력한 돈 몫으로 로또 몫만큼 생성
         Lotto lotto = new Lotto(lottoList, cutMoney);
 
-        System.out.println(lotto.numbers);
+//        System.out.println(lotto.numbers);
 
         //유저 로또랑 컴퓨터 로또 비교해서 몇개가 같은지 리스트에 담기
         List<Integer> howManyAccordNumber = new ArrayList<>();
@@ -73,42 +76,89 @@ public class Application {
 
             commonValues.retainAll(intNumberList);
 
-            if (commonValues.size() >= 3) {
-
-            }
-
-            System.out.println("갯수 확인 : " + commonValues);
+//            System.out.println("갯수 확인 : " + commonValues);
 
             howManyAccordNumber.add(commonValues.size());
 
-
-
-
-
         }
 
-        System.out.println(howManyAccordNumber + "개 일치");
+        Map<Integer, Integer> winningList = countOccurrences(howManyAccordNumber, winningNumbers);
 
 
         //당첨 금액 출력
-        for (int howManyIndex = 0; howManyIndex < howManyAccordNumber.size(); howManyIndex++) {
+//        System.out.println("당첨 금액 주기 전 : " + winningList);
+
+        countWinningMoney(winningList);
+
+        earningRate(winningList);
+
+    }
+
+    //3, 4, 5, 6개 중 몇개씩 맞았는지 모으기
+    public static Map<Integer, Integer> countOccurrences(List<Integer> howManyAccordNumber, List<Integer> winningNumbers) {
+        Map<Integer, Integer> winningList = new HashMap<>();
+        for (Integer target : winningNumbers) {
+            int count = 0;
+            for (Integer number : howManyAccordNumber) {
+                if (number.equals(target)) {
+                    count++;
+                }
+            }
+            winningList.put(target, count);
+        }
+        return winningList;
+    }
+
+    //모은거로 몇개 당첨됐는지 출력하기
+    public static void countWinningMoney(Map<Integer, Integer> winningList) { // 이건 view로 빠져야 하나....
+
+        LottoView lottoView = new LottoView();
+
+        int winningSum = 3;
+
+        lottoView.speakStartLottoStatistics();
+
+        Map<Integer, Integer> announceWinningList = new HashMap<>();
+
+        for (int index = 0; index < winningList.size(); index++) {
+
+            int realIndex = index + winningSum;
+
+            if (winningList.get(index + winningSum) != 0) {
+                announceWinningList.put(realIndex, winningList.get(realIndex));
+                lottoView.speakLottoStatistics(announceWinningList);
+            }
 
         }
 
     }
 
-    public static Map<Integer, Integer> countOccurrences(List<Integer> intNumberList, List<Integer> chosenNumbers) {
-        Map<Integer, Integer> howManyAccordNumber = new HashMap<>();
-        for (Integer target : chosenNumbers) {
-            int count = 0;
-            for (Integer number : intNumberList) {
-                if (number.equals(target)) {
-                    count++;
-                }
+    public static void earningRate(Map<Integer, Integer> winningList) {
+        System.out.println(winningList);
+        LottoView lottoView = new LottoView();
+        int earnings = 0;
+        int winningSum = 3;
+        double rate = 0;
+
+        for (int index = 0; index < winningList.size() + winningSum; index++) {
+            if (index + winningSum == 3 && winningList.get(index + winningSum) != 0) {
+                earnings += winningList.get(index + winningSum) * 5000;
             }
-            howManyAccordNumber.put(target, count);
+            if (index + winningSum == 4 && winningList.get(index + winningSum) != 0) {
+                earnings += winningList.get(index + winningSum) * 50000;
+            }
+            if (index + winningSum == 5 && winningList.get(index + winningSum) != 0) {
+                earnings += winningList.get(index + winningSum) * 1500000;
+            }
+            if (index + winningSum == 6 && winningList.get(index + winningSum) != 0) {
+                earnings += winningList.get(index + winningSum) * 2000000000;
+            }
+
         }
-        return howManyAccordNumber;
+
+        rate =  ((double)earnings/ (double)intUserNumber)*100;
+
+        lottoView.SpeakEarningRate(rate);
     }
 
 }

@@ -1,6 +1,7 @@
 package lotto.model;
 
 import camp.nextstep.edu.missionutils.Randoms;
+import lotto.view.LottoView;
 
 import java.util.List;
 import java.util.Scanner;
@@ -9,6 +10,8 @@ public class Lotto {
     public List<List<Integer>> numbers;
 
     public Lotto(List<List <Integer>> numbers, int cutMoney) {
+        LottoView lottoView = new LottoView();
+        lottoView.speakHowManyLotto(cutMoney);
         makeLottoNumbers(numbers, cutMoney);
         this.numbers = numbers;
     }
