@@ -46,7 +46,7 @@ public class LottoView {
         }
     }
 
-    public void betweenWords(String moneyWord, int realIndex, Map<Integer, Integer> announceWinningList) {
+    private void betweenWords(String moneyWord, int realIndex, Map<Integer, Integer> announceWinningList) {
         System.out.println(realIndex + moneyWord + announceWinningList.get(realIndex) + " 개");
     }
 

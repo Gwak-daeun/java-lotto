@@ -30,7 +30,7 @@ public class CalculatorService {
     }
 
     //3, 4, 5, 6개 중 몇개씩 맞았는지 모으기
-    public Map<Integer, Integer> countOccurrences(List<Integer> howManyAccordNumber, List<Integer> winningNumbers) {
+    private Map<Integer, Integer> countOccurrences(List<Integer> howManyAccordNumber, List<Integer> winningNumbers) {
         Map<Integer, Integer> winningList = new HashMap<>();
         for (Integer target : winningNumbers) {
             int count = 0;
