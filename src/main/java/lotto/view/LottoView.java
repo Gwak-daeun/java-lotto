@@ -51,6 +51,11 @@ public class LottoView {
     }
 
     public void SpeakEarningRate(double rate) {
-        System.out.println("총 수익률은 " + rate + "% 입니다.");
+
+//        double roundedRate = Math.round(rate);
+
+        String roundedRate = String.format("%.0f", rate);
+
+        System.out.println("총 수익률은 " + roundedRate + "% 입니다.");
     }
 }

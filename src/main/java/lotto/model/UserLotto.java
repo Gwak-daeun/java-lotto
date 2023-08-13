@@ -80,4 +80,6 @@ public class UserLotto {
         return userNumbers;
     }
 
+
+
 }

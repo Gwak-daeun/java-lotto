@@ -31,4 +31,31 @@ public class User {
 
         return luckyNumberList;
     }
+
+    public int insertMoney() {
+
+        int intUserNumber = 0;
+
+        lottoView.askMoney();
+
+        String strUserNumber = Console.readLine();
+
+        //문자열 돈을 숫자 돈으로 바꾸기
+        intUserNumber = Integer.parseInt(strUserNumber);
+
+        int restMoney = intUserNumber % 1000;
+
+        int cutMoney = intUserNumber / 1000;
+
+        try {
+            if (restMoney != 0) {
+                throw new IllegalArgumentException("1000원 단위의 돈을 입력하세요.");
+            }
+        } catch (IllegalArgumentException illegalArgumentException) {
+            System.out.println(illegalArgumentException.getMessage());
+            System.exit(0); // 나중에 return으로 바꿔야
+        }
+
+        return cutMoney;
+    }
 }
